@@ -1,0 +1,56 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ReviewListCard from '../components/ReviewListCard.astro';
+
+const reviews = [
+  {
+    slug: 'ideation-to-consensus',
+    title: 'Ideation to Consensus: A Critical Review',
+    excerpt: 'An ambitious platform designed to bridge the gap between online community ideation and real-world business execution. This review analyzes the concept across five key dimensions: Legal & Regulatory Compliance, Governance & Security, Economic & Game Theory Mechanics, Technical & Operational Feasibility, and Product & User Experience.',
+    date: 'May 2026',
+    readingTime: '18 min read',
+    tags: ['Web3', 'DAO Governance', 'Game Theory', 'Regulatory'],
+    ogImage: '/images/og-ideation-to-consensus.png',
+  },
+];
+---
+
+<BaseLayout
+  title="Critical Reviews"
+  description="Rigorous analysis of emerging concepts in crypto, governance, and decentralized systems."
+>
+  <div class="relative overflow-hidden" style="background-color: #04050C; border-bottom: 1px solid #1F2937;">
+    <div class="absolute inset-0 opacity-5" style="background-image: linear-gradient(rgba(201,168,76,0.4) 1px, transparent 1px), linear-gradient(90deg, rgba(201,168,76,0.4) 1px, transparent 1px); background-size: 60px 60px;"></div>
+    <div class="absolute top-0 left-0 right-0 h-0.5" style="background: linear-gradient(90deg, transparent, #C9A84C 30%, #E8C97A 50%, #C9A84C 70%, transparent);"></div>
+
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+      <div class="max-w-2xl">
+        <div class="flex items-center gap-2 mb-4">
+          <div class="w-6 h-6 rounded text-xs font-bold flex items-center justify-center" style="background-color: #C9A84C; color: #04050C;">CR</div>
+          <span class="text-xs font-semibold uppercase tracking-widest" style="color: #C9A84C; font-family: 'Inter', sans-serif;">Critical Reviews</span>
+        </div>
+        <h1 class="text-4xl sm:text-5xl font-bold mb-4" style="font-family: 'Lora', serif; color: #F5F3EE; line-height: 1.15;">
+          Rigorous Analysis.<br />No Sacred Cows.
+        </h1>
+        <p class="text-lg" style="color: #9CA3AF; font-family: 'Inter', sans-serif; line-height: 1.6;">
+          Long-form critical reviews of emerging concepts in crypto, Web3, and decentralized governance. Each review stress-tests a concept across legal, technical, economic, and operational dimensions.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+    <div class="flex items-center justify-between mb-8">
+      <h2 class="text-xl font-semibold" style="font-family: 'Lora', serif; color: #F5F3EE;">
+        All Reviews
+        <span class="ml-2 text-sm font-normal" style="color: #6B7280;">({reviews.length})</span>
+      </h2>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      {reviews.map((review) => (
+        <ReviewListCard {...review} />
+      ))}
+    </div>
+  </div>
+</BaseLayout>

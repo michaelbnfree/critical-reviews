@@ -1,0 +1,66 @@
+@import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap');
+
+@import "tailwindcss";
+
+/* ─── Brand Design Tokens ─────────────────────────────────────────────────── */
+:root {
+  --cr-navy:       #04050C;
+  --cr-navy-mid:   #0A0D1E;
+  --cr-navy-light: #111827;
+  --cr-off-white:  #F5F3EE;
+  --cr-gold:       #C9A84C;
+  --cr-gold-light: #E8C97A;
+  --cr-muted:      #6B7280;
+  --cr-border:     #1F2937;
+
+  --cr-legal:      #1E3A5F;
+  --cr-legal-fg:   #60A5FA;
+  --cr-gov:        #0F4C4C;
+  --cr-gov-fg:     #2DD4BF;
+  --cr-econ:       #4A3000;
+  --cr-econ-fg:    #F59E0B;
+  --cr-tech:       #1E293B;
+  --cr-tech-fg:    #94A3B8;
+  --cr-ux:         #4C0519;
+  --cr-ux-fg:      #FB7185;
+
+  --font-body:    'Inter', system-ui, sans-serif;
+  --font-heading: 'Lora', Georgia, serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--cr-navy);
+  color: var(--cr-off-white);
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-heading);
+  line-height: 1.25;
+  color: var(--cr-off-white);
+}
+
+a {
+  color: var(--cr-gold);
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+a:hover { color: var(--cr-gold-light); text-decoration: underline; }
+
+[id] { scroll-margin-top: 5rem; }
+
+.toc-link.active {
+  color: var(--cr-gold) !important;
+  border-left-color: var(--cr-gold) !important;
+}
+
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--cr-navy-mid); }
+::-webkit-scrollbar-thumb { background: var(--cr-border); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--cr-gold); }

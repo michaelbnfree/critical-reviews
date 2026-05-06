@@ -1,0 +1,76 @@
+---
+/**
+ * ReviewHero — deep-navy hero banner for review pages.
+ * Composable: reusable for any editorial review page.
+ */
+export interface Props {
+  title: string;
+  subtitle?: string;
+  date?: string;
+  readingTime?: string;
+  tags?: string[];
+  ogImage?: string;
+}
+
+const { title, subtitle, date, readingTime, tags = [], ogImage } = Astro.props;
+---
+
+<div class="review-hero relative overflow-hidden" style="background-color: #04050C; min-height: 340px;">
+  <!-- Background: gradient + optional image overlay -->
+  <div class="absolute inset-0" style="background: linear-gradient(135deg, #04050C 0%, #0A0D1E 40%, #0F1A2E 70%, #04050C 100%); opacity: 0.95;"></div>
+  {ogImage && (
+    <div class="absolute inset-0" style={`background-image: url('${ogImage}'); background-size: cover; background-position: center; opacity: 0.12;`}></div>
+  )}
+
+  <!-- Subtle grid pattern -->
+  <div class="absolute inset-0 opacity-5" style="background-image: linear-gradient(rgba(201,168,76,0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(201,168,76,0.3) 1px, transparent 1px); background-size: 40px 40px;"></div>
+
+  <!-- Gold accent line at top -->
+  <div class="absolute top-0 left-0 right-0 h-0.5" style="background: linear-gradient(90deg, transparent, #C9A84C 30%, #E8C97A 50%, #C9A84C 70%, transparent);"></div>
+
+  <!-- Content -->
+  <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 flex flex-col justify-end" style="min-height: 340px;">
+    <!-- Tags -->
+    {tags.length > 0 && (
+      <div class="flex flex-wrap gap-2 mb-4">
+        {tags.map((tag) => (
+          <span class="text-xs px-2 py-0.5 rounded font-medium uppercase tracking-wider" style="background-color: rgba(201,168,76,0.15); color: #C9A84C; border: 1px solid rgba(201,168,76,0.3);">
+            {tag}
+          </span>
+        ))}
+      </div>
+    )}
+
+    <!-- Title -->
+    <h1 class="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 max-w-4xl" style="font-family: 'Lora', serif; color: #F5F3EE; line-height: 1.2;">
+      {title}
+    </h1>
+
+    <!-- Subtitle -->
+    {subtitle && (
+      <p class="text-lg max-w-2xl mb-6" style="color: #9CA3AF; font-family: 'Inter', sans-serif; line-height: 1.6;">
+        {subtitle}
+      </p>
+    )}
+
+    <!-- Meta row -->
+    <div class="flex flex-wrap items-center gap-4 text-sm" style="color: #6B7280;">
+      {date && (
+        <span class="flex items-center gap-1.5">
+          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
+          </svg>
+          {date}
+        </span>
+      )}
+      {readingTime && (
+        <span class="flex items-center gap-1.5">
+          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+          </svg>
+          {readingTime}
+        </span>
+      )}
+    </div>
+  </div>
+</div>

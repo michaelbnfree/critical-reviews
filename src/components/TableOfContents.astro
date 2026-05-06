@@ -1,0 +1,129 @@
+---
+/**
+ * TableOfContents — sticky left sidebar TOC with active-section highlighting.
+ * On mobile: collapses into a top drawer toggled by a button.
+ * Composable: reusable for any long-form editorial page.
+ */
+export interface TocItem {
+  id: string;
+  label: string;
+  color: string;
+}
+
+export interface Props {
+  items: TocItem[];
+}
+
+const { items } = Astro.props;
+---
+
+<!-- Desktop: sticky sidebar -->
+<aside class="toc-sidebar hidden lg:block sticky top-20 self-start w-56 shrink-0">
+  <div class="rounded-lg p-4" style="background-color: #0A0D1E; border: 1px solid #1F2937;">
+    <p class="text-xs font-semibold uppercase tracking-widest mb-3" style="color: #6B7280; font-family: 'Inter', sans-serif;">Contents</p>
+    <nav aria-label="Table of contents">
+      <ul class="space-y-1">
+        {items.map((item) => (
+          <li>
+            <a
+              href={`#${item.id}`}
+              class="toc-link flex items-center gap-2 text-xs py-1 px-2 rounded transition-all border-l-2"
+              style={`color: #9CA3AF; border-left-color: transparent; text-decoration: none;`}
+              data-section={item.id}
+            >
+              <span class="w-2 h-2 rounded-full shrink-0" style={`background-color: ${item.color};`}></span>
+              {item.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  </div>
+</aside>
+
+<!-- Mobile: collapsible drawer -->
+<div class="lg:hidden mb-6">
+  <button
+    id="toc-toggle"
+    class="w-full flex items-center justify-between px-4 py-3 rounded-lg text-sm font-medium"
+    style="background-color: #0A0D1E; border: 1px solid #1F2937; color: #F5F3EE;"
+    aria-expanded="false"
+    aria-controls="toc-mobile"
+  >
+    <span class="flex items-center gap-2">
+      <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h10M4 18h7"/>
+      </svg>
+      Table of Contents
+    </span>
+    <svg id="toc-chevron" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="transition: transform 0.2s;">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
+    </svg>
+  </button>
+
+  <div id="toc-mobile" class="hidden mt-2 rounded-lg p-4" style="background-color: #0A0D1E; border: 1px solid #1F2937;">
+    <nav aria-label="Table of contents mobile">
+      <ul class="space-y-1">
+        {items.map((item) => (
+          <li>
+            <a
+              href={`#${item.id}`}
+              class="toc-link flex items-center gap-2 text-sm py-1.5 px-2 rounded"
+              style="color: #9CA3AF; text-decoration: none;"
+              data-section={item.id}
+              onclick="document.getElementById('toc-mobile')?.classList.add('hidden'); document.getElementById('toc-toggle')?.setAttribute('aria-expanded','false');"
+            >
+              <span class="w-2 h-2 rounded-full shrink-0" style={`background-color: ${item.color};`}></span>
+              {item.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  </div>
+</div>
+
+<script>
+  // Mobile toggle
+  const toggle = document.getElementById('toc-toggle');
+  const mobile = document.getElementById('toc-mobile');
+  const chevron = document.getElementById('toc-chevron');
+
+  toggle?.addEventListener('click', () => {
+    const expanded = toggle.getAttribute('aria-expanded') === 'true';
+    toggle.setAttribute('aria-expanded', String(!expanded));
+    mobile?.classList.toggle('hidden');
+    if (chevron) chevron.style.transform = expanded ? '' : 'rotate(180deg)';
+  });
+
+  // Active section highlighting via IntersectionObserver
+  const tocLinks = document.querySelectorAll<HTMLAnchorElement>('.toc-link');
+  const sections = document.querySelectorAll<HTMLElement>('[data-toc-section]');
+
+  if (sections.length > 0 && tocLinks.length > 0) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const id = entry.target.id;
+            tocLinks.forEach((link) => {
+              const isActive = link.dataset.section === id;
+              if (isActive) {
+                link.style.color = '#C9A84C';
+                link.style.borderLeftColor = '#C9A84C';
+                link.style.backgroundColor = 'rgba(201,168,76,0.08)';
+              } else {
+                link.style.color = '#9CA3AF';
+                link.style.borderLeftColor = 'transparent';
+                link.style.backgroundColor = '';
+              }
+            });
+          }
+        });
+      },
+      { rootMargin: '-20% 0px -60% 0px', threshold: 0 }
+    );
+
+    sections.forEach((section) => observer.observe(section));
+  }
+</script>
