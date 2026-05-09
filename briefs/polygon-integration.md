@@ -51,7 +51,7 @@ def some_fn(symbol: str, *, cache: Cache | None = None) -> dict:
 
 Append to `/etc/manobot.env`:
 ```
-POLYGON_API_KEY=wab61mc0P09cAJUO4exg5Rpz4Xumg5LJ
+POLYGON_API_KEY=<your-key-here>
 ```
 
 ---
