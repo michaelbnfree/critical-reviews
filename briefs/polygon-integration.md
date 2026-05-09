@@ -1,4 +1,6 @@
 > **Note: This is a proposed plan of action. Review and confirm before implementing.**
+>
+> **Tier note:** The free Polygon plan ($0/mo) is sufficient to validate this integration and run it at low traffic. When Macro Pulse scales or requires real-time stock quotes, upgrade to the Starter plan (~$30/mo). Rotate the API key at that point as well.
 
 # Brief: Polygon.io Integration for ContrarianAlpha
 
