@@ -1,0 +1,49 @@
+---
+/**
+ * ReviewCard — reusable glyph card for review sections.
+ * 
+ * type: 'missing' (○) | 'challenge' (△) | 'improve' (◆)
+ * sectionColor: CSS variable name for the section accent (e.g. '--cr-legal-fg')
+ */
+export interface Props {
+  type: 'missing' | 'challenge' | 'improve';
+  title: string;
+  sectionFg?: string;
+}
+
+const { type, title, sectionFg = '#C9A84C' } = Astro.props;
+
+const config = {
+  missing: {
+    glyph: '○',
+    label: 'What is Missing',
+    borderColor: sectionFg,
+    glyphColor: sectionFg,
+  },
+  challenge: {
+    glyph: '△',
+    label: 'What Needs to be Challenged',
+    borderColor: sectionFg,
+    glyphColor: sectionFg,
+  },
+  improve: {
+    glyph: '◆',
+    label: 'Improvement',
+    borderColor: sectionFg,
+    glyphColor: sectionFg,
+  },
+};
+
+const c = config[type];
+---
+
+<div class="review-card rounded-lg p-4 mb-3" style={`border-left: 3px solid ${c.borderColor}; background-color: rgba(255,255,255,0.03);`}>
+  <div class="flex items-start gap-3">
+    <span class="text-lg font-bold mt-0.5 shrink-0 w-5 text-center" style={`color: ${c.glyphColor}; font-family: monospace;`} aria-hidden="true">{c.glyph}</span>
+    <div class="flex-1 min-w-0">
+      <p class="text-sm leading-relaxed" style="color: #D1D5DB;">
+        <slot />
+      </p>
+    </div>
+  </div>
+</div>

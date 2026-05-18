@@ -1,0 +1,57 @@
+---
+/**
+ * ActionMatrix — Conclusion prioritized action matrix.
+ * Composable: reusable for any review with recommended next steps.
+ */
+export interface ActionRow {
+  action: string;
+  priority: 'P0' | 'P1' | 'P2' | 'P3';
+  dependency: string;
+  owner: string;
+}
+
+export interface Props {
+  rows: ActionRow[];
+}
+
+const { rows } = Astro.props;
+
+const priorityStyles = {
+  P0: { bg: 'rgba(239,68,68,0.15)', color: '#EF4444', border: 'rgba(239,68,68,0.3)', label: 'P0 — Critical' },
+  P1: { bg: 'rgba(245,158,11,0.15)', color: '#F59E0B', border: 'rgba(245,158,11,0.3)', label: 'P1 — High' },
+  P2: { bg: 'rgba(59,130,246,0.15)', color: '#60A5FA', border: 'rgba(59,130,246,0.3)', label: 'P2 — Medium' },
+  P3: { bg: 'rgba(34,197,94,0.15)',  color: '#22C55E', border: 'rgba(34,197,94,0.3)',  label: 'P3 — Low' },
+};
+---
+
+<div class="action-matrix overflow-x-auto rounded-xl mb-8" style="border: 1px solid #1F2937;">
+  <table class="w-full text-sm">
+    <thead>
+      <tr style="background-color: #0A0D1E; border-bottom: 1px solid #1F2937;">
+        <th class="text-left px-4 py-3 font-semibold uppercase tracking-wider text-xs" style="color: #6B7280; font-family: 'Inter', sans-serif;">#</th>
+        <th class="text-left px-4 py-3 font-semibold uppercase tracking-wider text-xs" style="color: #6B7280; font-family: 'Inter', sans-serif;">Recommended Action</th>
+        <th class="text-left px-4 py-3 font-semibold uppercase tracking-wider text-xs" style="color: #6B7280; font-family: 'Inter', sans-serif;">Priority</th>
+        <th class="text-left px-4 py-3 font-semibold uppercase tracking-wider text-xs hidden md:table-cell" style="color: #6B7280; font-family: 'Inter', sans-serif;">Dependency</th>
+        <th class="text-left px-4 py-3 font-semibold uppercase tracking-wider text-xs hidden md:table-cell" style="color: #6B7280; font-family: 'Inter', sans-serif;">Owner</th>
+      </tr>
+    </thead>
+    <tbody>
+      {rows.map((row, i) => {
+        const p = priorityStyles[row.priority];
+        return (
+          <tr style={`border-bottom: 1px solid #1F2937; ${i % 2 === 0 ? '' : 'background-color: rgba(255,255,255,0.01);'}`}>
+            <td class="px-4 py-3 text-xs font-mono" style="color: #4B5563;">{String(i + 1).padStart(2, '0')}</td>
+            <td class="px-4 py-3 font-medium" style="color: #F5F3EE;">{row.action}</td>
+            <td class="px-4 py-3">
+              <span class="text-xs px-2 py-0.5 rounded font-semibold whitespace-nowrap" style={`background-color: ${p.bg}; color: ${p.color}; border: 1px solid ${p.border};`}>
+                {p.label}
+              </span>
+            </td>
+            <td class="px-4 py-3 text-xs hidden md:table-cell" style="color: #9CA3AF;">{row.dependency}</td>
+            <td class="px-4 py-3 text-xs hidden md:table-cell" style="color: #6B7280; font-style: italic;">{row.owner}</td>
+          </tr>
+        );
+      })}
+    </tbody>
+  </table>
+</div>

@@ -1,0 +1,56 @@
+---
+/**
+ * ReviewListCard — card displayed on the home page review listing.
+ * Composable: reusable for any editorial brick index page.
+ */
+export interface Props {
+  slug: string;
+  title: string;
+  excerpt: string;
+  date: string;
+  readingTime: string;
+  tags?: string[];
+  ogImage?: string;
+}
+
+const { slug, title, excerpt, date, readingTime, tags = [], ogImage } = Astro.props;
+---
+
+<article class="review-list-card group rounded-xl overflow-hidden transition-all duration-200 hover:-translate-y-0.5" style="background-color: #0A0D1E; border: 1px solid #1F2937;">
+  <!-- Thumbnail -->
+  {ogImage && (
+    <div class="h-40 overflow-hidden" style="background-color: #04050C;">
+      <img src={ogImage} alt={title} class="w-full h-full object-cover opacity-70 group-hover:opacity-90 transition-opacity" loading="lazy" />
+    </div>
+  )}
+  {!ogImage && (
+    <div class="h-40 flex items-center justify-center" style="background: linear-gradient(135deg, #04050C, #0F1A2E);">
+      <span class="text-4xl font-bold" style="color: rgba(201,168,76,0.3); font-family: 'Lora', serif;">CR</span>
+    </div>
+  )}
+
+  <!-- Content -->
+  <div class="p-5">
+    <!-- Tags -->
+    {tags.length > 0 && (
+      <div class="flex flex-wrap gap-1.5 mb-3">
+        {tags.map((tag) => (
+          <span class="text-xs px-2 py-0.5 rounded" style="background-color: rgba(201,168,76,0.1); color: #C9A84C; border: 1px solid rgba(201,168,76,0.2);">
+            {tag}
+          </span>
+        ))}
+      </div>
+    )}
+
+    <h2 class="text-lg font-bold mb-2 group-hover:text-yellow-300 transition-colors" style="font-family: 'Lora', serif; color: #F5F3EE; line-height: 1.3;">
+      <a href={`/reviews/${slug}`} class="no-underline" style="color: inherit;">{title}</a>
+    </h2>
+
+    <p class="text-sm mb-4 line-clamp-3" style="color: #9CA3AF;">{excerpt}</p>
+
+    <div class="flex items-center justify-between text-xs" style="color: #6B7280;">
+      <span>{date}</span>
+      <span>{readingTime}</span>
+    </div>
+  </div>
+</article>

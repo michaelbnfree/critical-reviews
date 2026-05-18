@@ -1,0 +1,62 @@
+---
+/**
+ * RiskTable — Executive Summary risk-level table.
+ * Composable: reusable for any review with a multi-dimension risk assessment.
+ */
+export interface RiskRow {
+  dimension: string;
+  color: string;
+  riskLevel: string;
+  riskBadge: 'critical' | 'high' | 'medium' | 'low';
+  keyGap: string;
+  priority: string;
+}
+
+export interface Props {
+  rows: RiskRow[];
+}
+
+const { rows } = Astro.props;
+
+const badgeStyles = {
+  critical: { bg: 'rgba(239,68,68,0.15)', color: '#EF4444', border: 'rgba(239,68,68,0.3)' },
+  high:     { bg: 'rgba(245,158,11,0.15)', color: '#F59E0B', border: 'rgba(245,158,11,0.3)' },
+  medium:   { bg: 'rgba(59,130,246,0.15)', color: '#60A5FA', border: 'rgba(59,130,246,0.3)' },
+  low:      { bg: 'rgba(34,197,94,0.15)',  color: '#22C55E', border: 'rgba(34,197,94,0.3)' },
+};
+---
+
+<div class="risk-table overflow-x-auto rounded-xl mb-8" style="border: 1px solid #1F2937;">
+  <table class="w-full text-sm">
+    <thead>
+      <tr style="background-color: #0A0D1E; border-bottom: 1px solid #1F2937;">
+        <th class="text-left px-4 py-3 font-semibold uppercase tracking-wider text-xs" style="color: #6B7280; font-family: 'Inter', sans-serif;">Dimension</th>
+        <th class="text-left px-4 py-3 font-semibold uppercase tracking-wider text-xs" style="color: #6B7280; font-family: 'Inter', sans-serif;">Current Risk</th>
+        <th class="text-left px-4 py-3 font-semibold uppercase tracking-wider text-xs hidden sm:table-cell" style="color: #6B7280; font-family: 'Inter', sans-serif;">Key Gap</th>
+        <th class="text-left px-4 py-3 font-semibold uppercase tracking-wider text-xs" style="color: #6B7280; font-family: 'Inter', sans-serif;">Priority</th>
+      </tr>
+    </thead>
+    <tbody>
+      {rows.map((row, i) => {
+        const badge = badgeStyles[row.riskBadge];
+        return (
+          <tr style={`border-bottom: 1px solid #1F2937; ${i % 2 === 0 ? '' : 'background-color: rgba(255,255,255,0.01);'}`}>
+            <td class="px-4 py-3">
+              <span class="flex items-center gap-2 font-medium" style="color: #F5F3EE;">
+                <span class="w-2 h-2 rounded-full shrink-0" style={`background-color: ${row.color};`}></span>
+                {row.dimension}
+              </span>
+            </td>
+            <td class="px-4 py-3">
+              <span class="text-xs px-2 py-0.5 rounded font-semibold" style={`background-color: ${badge.bg}; color: ${badge.color}; border: 1px solid ${badge.border};`}>
+                {row.riskLevel}
+              </span>
+            </td>
+            <td class="px-4 py-3 hidden sm:table-cell text-xs" style="color: #9CA3AF;">{row.keyGap}</td>
+            <td class="px-4 py-3 text-xs font-semibold" style="color: #C9A84C;">{row.priority}</td>
+          </tr>
+        );
+      })}
+    </tbody>
+  </table>
+</div>

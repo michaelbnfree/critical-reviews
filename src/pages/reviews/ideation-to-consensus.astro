@@ -1,0 +1,376 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ReviewHero from '../../components/ReviewHero.astro';
+import TableOfContents from '../../components/TableOfContents.astro';
+import ReviewSection from '../../components/ReviewSection.astro';
+import CardGroup from '../../components/CardGroup.astro';
+import ReviewCard from '../../components/ReviewCard.astro';
+import RiskTable from '../../components/RiskTable.astro';
+import ActionMatrix from '../../components/ActionMatrix.astro';
+
+// ─── Section color tokens ──────────────────────────────────────────────────
+const S = {
+  legal: { bg: '#1E3A5F', fg: '#60A5FA' },
+  gov:   { bg: '#0F4C4C', fg: '#2DD4BF' },
+  econ:  { bg: '#4A3000', fg: '#F59E0B' },
+  tech:  { bg: '#1E293B', fg: '#94A3B8' },
+  ux:    { bg: '#4C0519', fg: '#FB7185' },
+};
+
+// ─── TOC items ─────────────────────────────────────────────────────────────
+const tocItems = [
+  { id: 'executive-summary',    label: 'Executive Summary',              color: '#C9A84C' },
+  { id: 'legal-regulatory',     label: '1. Legal & Regulatory',          color: S.legal.fg },
+  { id: 'governance-security',  label: '2. Governance & Security',       color: S.gov.fg   },
+  { id: 'economic-game-theory', label: '3. Economic & Game Theory',      color: S.econ.fg  },
+  { id: 'technical-feasibility','label': '4. Technical & Operational',   color: S.tech.fg  },
+  { id: 'product-ux',           label: '5. Product & UX',                color: S.ux.fg    },
+  { id: 'conclusion',           label: 'Conclusion',                     color: '#C9A84C'  },
+  { id: 'references',           label: 'References',                     color: '#6B7280'  },
+];
+
+// ─── Risk table data ────────────────────────────────────────────────────────
+const riskRows = [
+  { dimension: 'Legal & Regulatory', color: S.legal.fg, riskLevel: 'Critical', riskBadge: 'critical' as const, keyGap: 'No securities law framework; unregistered equity offering risk', priority: 'Immediate' },
+  { dimension: 'Governance & Security', color: S.gov.fg, riskLevel: 'High', riskBadge: 'high' as const, keyGap: 'No Sybil resistance; majority-rule tyranny risk', priority: 'Pre-launch' },
+  { dimension: 'Economic & Game Theory', color: S.econ.fg, riskLevel: 'High', riskBadge: 'high' as const, keyGap: 'Missing tokenomics model; $1 barrier insufficient', priority: 'Pre-launch' },
+  { dimension: 'Technical & Operational', color: S.tech.fg, riskLevel: 'Medium', riskBadge: 'medium' as const, keyGap: 'Cross-chain architecture unspecified; AI voting risks', priority: 'Design phase' },
+  { dimension: 'Product & User Experience', color: S.ux.fg, riskLevel: 'Medium', riskBadge: 'medium' as const, keyGap: 'Cold-start problem unaddressed; journey too complex', priority: 'Design phase' },
+];
+
+// ─── Action matrix data ─────────────────────────────────────────────────────
+const actionRows = [
+  { action: 'Engage securities law counsel; design Reg CF / crowdfunding exemption framework', priority: 'P0' as const, dependency: 'None', owner: 'Legal lead' },
+  { action: 'Implement KYC/AML and investor accreditation checks before any equity issuance', priority: 'P0' as const, dependency: 'Legal framework', owner: 'Compliance' },
+  { action: 'Design Sybil resistance mechanism (Proof of Personhood or staking)', priority: 'P1' as const, dependency: 'Governance design', owner: 'Protocol team' },
+  { action: 'Replace simple majority with Quadratic Voting for governance proposals', priority: 'P1' as const, dependency: 'Smart contract audit', owner: 'Protocol team' },
+  { action: 'Publish detailed tokenomics model (utility vs. governance tokens, treasury policy)', priority: 'P1' as const, dependency: 'Legal framework', owner: 'Token economist' },
+  { action: 'Integrate decentralized arbitration (Kleros / Aragon Court) for dispute resolution', priority: 'P2' as const, dependency: 'Governance design', owner: 'Protocol team' },
+  { action: 'Restrict AI to advisory role; remove proxy voting rights from AI agents', priority: 'P2' as const, dependency: 'AI integration spec', owner: 'Product lead' },
+  { action: 'Implement Account Abstraction (ERC-4337) for seamless Web2/Web3 onboarding', priority: 'P2' as const, dependency: 'Technical architecture', owner: 'Engineering' },
+  { action: 'Design cold-start strategy (seeding initial community, curated templates)', priority: 'P3' as const, dependency: 'Product roadmap', owner: 'Product lead' },
+  { action: 'Build Soulbound Token reputation system for persistent user history', priority: 'P3' as const, dependency: 'Smart contract audit', owner: 'Protocol team' },
+];
+
+// ─── Schema.org structured data ────────────────────────────────────────────
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Ideation to Consensus: A Critical Review",
+  "description": "A rigorous critical analysis of the Ideation to Consensus Web3 platform concept across five dimensions: legal compliance, governance, economics, technical feasibility, and user experience.",
+  "datePublished": "2026-05-01",
+  "author": { "@type": "Organization", "name": "Critical Reviews" },
+  "publisher": { "@type": "Organization", "name": "Sebastian Productions", "url": "https://criticalreviews.io" },
+  "image": "https://criticalreviews.io/images/og-ideation-to-consensus.png",
+  "url": "https://criticalreviews.io/reviews/ideation-to-consensus",
+  "keywords": ["Web3", "DAO", "governance", "crypto", "regulatory compliance", "game theory"],
+};
+---
+
+<BaseLayout
+  title="Ideation to Consensus: A Critical Review"
+  description="A rigorous critical analysis of the Ideation to Consensus Web3 platform concept across five dimensions: legal compliance, governance, economics, technical feasibility, and user experience."
+  ogImage="/images/og-ideation-to-consensus.png"
+  ogType="article"
+  articleDate="2026-05-01"
+  schema={schema}
+>
+  <!-- Hero -->
+  <ReviewHero
+    title="Ideation to Consensus: A Critical Review"
+    subtitle="Stress-testing an ambitious Web3 platform concept across legal, governance, economic, technical, and UX dimensions."
+    date="May 2026"
+    readingTime="18 min read"
+    tags={['Web3', 'DAO Governance', 'Game Theory', 'Regulatory']}
+    ogImage="/images/og-ideation-to-consensus.png"
+  />
+
+  <!-- Article body: TOC + content -->
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+    <!-- Mobile TOC -->
+    <div class="lg:hidden mb-6">
+      <TableOfContents items={tocItems} />
+    </div>
+
+    <div class="flex gap-10 items-start">
+      <!-- Desktop TOC sidebar -->
+      <div class="hidden lg:block">
+        <TableOfContents items={tocItems} />
+      </div>
+
+      <!-- Main article content -->
+      <article class="flex-1 min-w-0 max-w-3xl">
+
+        <!-- ─── Executive Summary ─────────────────────────────────────────── -->
+        <section id="executive-summary" data-toc-section class="mb-12">
+          <div class="flex items-center gap-3 mb-5">
+            <div class="w-1 h-8 rounded" style="background-color: #C9A84C;"></div>
+            <h2 class="text-2xl font-bold m-0" style="font-family: 'Lora', serif; color: #F5F3EE;">Executive Summary</h2>
+            <button
+              class="copy-link-btn ml-auto text-xs px-2 py-1 rounded opacity-40 hover:opacity-80 transition-opacity flex items-center gap-1"
+              style="color: #C9A84C; background-color: rgba(201,168,76,0.08); border: 1px solid rgba(201,168,76,0.2);"
+              data-href="#executive-summary"
+              title="Copy link"
+            >
+              <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/></svg>
+              <span class="copy-label">Copy link</span>
+            </button>
+          </div>
+
+          <p class="mb-6 text-base leading-relaxed" style="color: #D1D5DB;">
+            The "Ideation to Consensus" concept presents an ambitious and innovative platform designed to bridge the gap between online community ideation and real-world business execution. By combining Web2/Web3 payment gateways, DAO governance, game theory, and AI integration, the platform aims to democratize startup creation. However, to transition from a conceptual framework to a successful, legally compliant, and sustainable platform, several critical areas require rigorous challenge, refinement, and structural additions.
+          </p>
+
+          <p class="mb-6 text-base leading-relaxed" style="color: #D1D5DB;">
+            This review analyzes the concept across five key dimensions: Legal &amp; Regulatory Compliance, Governance &amp; Security, Economic &amp; Game Theory Mechanics, Technical &amp; Operational Feasibility, and Product &amp; User Experience.
+          </p>
+
+          <h3 class="text-base font-semibold mb-3" style="color: #C9A84C; font-family: 'Inter', sans-serif; text-transform: uppercase; letter-spacing: 0.08em;">Risk Assessment by Dimension</h3>
+          <RiskTable rows={riskRows} />
+        </section>
+
+        <!-- ─── Section 1: Legal & Regulatory ───────────────────────────── -->
+        <div id="legal-regulatory" data-toc-section>
+          <ReviewSection id="legal-regulatory-inner" number="01" title="Legal & Regulatory Compliance" sectionBg={S.legal.bg} sectionFg={S.legal.fg}>
+
+            <CardGroup type="missing" sectionFg={S.legal.fg}>
+              <ReviewCard type="missing" sectionFg={S.legal.fg}>
+                <strong>Securities Law Compliance Framework:</strong> The concept of "Early believers get a piece of the equity... for a dollar" strongly implicates securities regulations. In the US, this resembles an unregistered securities offering unless it falls under exemptions like Regulation Crowdfunding (Reg CF) <a href="#ref-1" style="color: #60A5FA;">[1]</a>. A clear framework for KYC/AML (Know Your Customer/Anti-Money Laundering) and investor accreditation is missing.
+              </ReviewCard>
+              <ReviewCard type="missing" sectionFg={S.legal.fg}>
+                <strong>Jurisdictional Strategy:</strong> The document mentions "country specific with international investors," but lacks a strategy for handling cross-border securities laws, tax implications, and the legal recognition of DAOs/Trusts in different jurisdictions (e.g., Wyoming DAO LLC vs. Marshall Islands DAO LLC) <a href="#ref-2" style="color: #60A5FA;">[2]</a>.
+              </ReviewCard>
+              <ReviewCard type="missing" sectionFg={S.legal.fg}>
+                <strong>Liability Protection:</strong> While a Trust or LLC is mentioned, the transition period before formal incorporation exposes early participants to general partnership liability <a href="#ref-3" style="color: #60A5FA;">[3]</a>.
+              </ReviewCard>
+            </CardGroup>
+
+            <CardGroup type="challenge" sectionFg={S.legal.fg}>
+              <ReviewCard type="challenge" sectionFg={S.legal.fg}>
+                <strong>"Code is Law" Mentality:</strong> The assertion that "Code is law so these rules must be followed" is legally perilous. Smart contracts cannot override statutory laws, especially regarding consumer protection, fraud, and fiduciary duties. The platform must acknowledge the supremacy of legal jurisdictions over smart contract code.
+              </ReviewCard>
+            </CardGroup>
+
+            <CardGroup type="improve" sectionFg={S.legal.fg}>
+              <ReviewCard type="improve" sectionFg={S.legal.fg}>
+                <strong>Integrate Reg CF / Crowdfunding Exemptions:</strong> Design the platform to operate within established equity crowdfunding frameworks, utilizing licensed broker-dealers or funding portals where necessary.
+              </ReviewCard>
+              <ReviewCard type="improve" sectionFg={S.legal.fg}>
+                <strong>Automated Legal Wrappers:</strong> Implement a system that automatically generates compliant legal wrappers (e.g., Unincorporated Nonprofit Associations or specific DAO LLCs) at the moment the funding threshold is met, ensuring immediate liability protection.
+              </ReviewCard>
+            </CardGroup>
+
+          </ReviewSection>
+        </div>
+
+        <!-- ─── Section 2: Governance & Security ────────────────────────── -->
+        <div id="governance-security" data-toc-section>
+          <ReviewSection id="governance-security-inner" number="02" title="Governance & Security" sectionBg={S.gov.bg} sectionFg={S.gov.fg}>
+
+            <CardGroup type="missing" sectionFg={S.gov.fg}>
+              <ReviewCard type="missing" sectionFg={S.gov.fg}>
+                <strong>Sybil Resistance Mechanism:</strong> The document notes the need to "guard from an outside entity creating too many accounts," but does not specify how. Without robust Sybil resistance, the "majority wins" and "one dollar = one vote" systems are highly vulnerable to hostile takeovers <a href="#ref-4" style="color: #2DD4BF;">[4]</a>.
+              </ReviewCard>
+              <ReviewCard type="missing" sectionFg={S.gov.fg}>
+                <strong>Dispute Resolution System:</strong> There is no mechanism for resolving disputes that cannot be handled by a simple vote, such as breaches of contract by local partners or internal founder conflicts.
+              </ReviewCard>
+            </CardGroup>
+
+            <CardGroup type="challenge" sectionFg={S.gov.fg}>
+              <ReviewCard type="challenge" sectionFg={S.gov.fg}>
+                <strong>"Majority Wins" with Odd Numbers:</strong> Relying solely on a simple majority (even with an odd number of founders) can lead to the tyranny of the majority and marginalization of minority stakeholders.
+              </ReviewCard>
+              <ReviewCard type="challenge" sectionFg={S.gov.fg}>
+                <strong>Founder Priority in Voting:</strong> Giving founders "priority when proposals come up for a vote" contradicts the decentralized ethos and could disincentivize later participants if they feel their votes are meaningless.
+              </ReviewCard>
+            </CardGroup>
+
+            <CardGroup type="improve" sectionFg={S.gov.fg}>
+              <ReviewCard type="improve" sectionFg={S.gov.fg}>
+                <strong>Implement Quadratic Voting or Proof of Personhood:</strong> Utilize Quadratic Voting to balance the influence of whales (large token holders) and protect minority interests <a href="#ref-5" style="color: #2DD4BF;">[5]</a>. Integrate Proof of Personhood protocols (e.g., Worldcoin, Gitcoin Passport) to ensure one human equals one identity, mitigating Sybil attacks.
+              </ReviewCard>
+              <ReviewCard type="improve" sectionFg={S.gov.fg}>
+                <strong>Decentralized Arbitration:</strong> Integrate decentralized dispute resolution protocols (like Kleros or Aragon Court) to handle complex disagreements objectively.
+              </ReviewCard>
+            </CardGroup>
+
+          </ReviewSection>
+        </div>
+
+        <!-- ─── Section 3: Economic & Game Theory ────────────────────────── -->
+        <div id="economic-game-theory" data-toc-section>
+          <ReviewSection id="economic-game-theory-inner" number="03" title="Economic & Game Theory Mechanics" sectionBg={S.econ.bg} sectionFg={S.econ.fg}>
+
+            <CardGroup type="missing" sectionFg={S.econ.fg}>
+              <ReviewCard type="missing" sectionFg={S.econ.fg}>
+                <strong>Tokenomics and Value Accrual:</strong> The document lacks a detailed tokenomic model. How is equity represented? Are there utility tokens vs. governance tokens? How is the treasury managed against market volatility (especially if funded in crypto)?
+              </ReviewCard>
+              <ReviewCard type="missing" sectionFg={S.econ.fg}>
+                <strong>Incentive Alignment for Local Partners:</strong> While the document mentions hiring local partners, it lacks a structured incentive model (e.g., milestone-based vesting, performance bonuses) to ensure they act in the DAO's best interest.
+              </ReviewCard>
+            </CardGroup>
+
+            <CardGroup type="challenge" sectionFg={S.econ.fg}>
+              <ReviewCard type="challenge" sectionFg={S.econ.fg}>
+                <strong>The $1 Pitch Barrier:</strong> While a $1 barrier reduces spam, it may not be sufficient to generate meaningful "skin in the game" or deter sophisticated bad actors. Furthermore, transaction fees (gas fees in Web3 or credit card processing fees in Web2) could make a $1 transaction economically unviable.
+              </ReviewCard>
+            </CardGroup>
+
+            <CardGroup type="improve" sectionFg={S.econ.fg}>
+              <ReviewCard type="improve" sectionFg={S.econ.fg}>
+                <strong>Dynamic Staking and Slashing:</strong> Implement staking mechanisms where participants lock funds to propose or vote. If a proposal is deemed malicious or spam by the community, a portion of the stake is slashed.
+              </ReviewCard>
+              <ReviewCard type="improve" sectionFg={S.econ.fg}>
+                <strong>Milestone-Based Treasury Unlocking:</strong> Instead of releasing all startup capital at launch, utilize smart contracts to release funds in tranches based on the completion of community-verified milestones.
+              </ReviewCard>
+            </CardGroup>
+
+          </ReviewSection>
+        </div>
+
+        <!-- ─── Section 4: Technical & Operational ───────────────────────── -->
+        <div id="technical-feasibility" data-toc-section>
+          <ReviewSection id="technical-feasibility-inner" number="04" title="Technical & Operational Feasibility" sectionBg={S.tech.bg} sectionFg={S.tech.fg}>
+
+            <CardGroup type="missing" sectionFg={S.tech.fg}>
+              <ReviewCard type="missing" sectionFg={S.tech.fg}>
+                <strong>Cross-Chain / Multi-Gateway Architecture:</strong> The technical architecture required to seamlessly accept Apple Pay, Google Pay, and various cryptocurrencies (USDC, USDT, DAI) while minting equity/governance rights on a blockchain is highly complex and not detailed.
+              </ReviewCard>
+              <ReviewCard type="missing" sectionFg={S.tech.fg}>
+                <strong>AI Integration Specifics:</strong> The proposal to add an AI as a member via an API (e.g., OpenRouter) lacks technical guardrails. How is the AI's prompt engineered? Who controls the API keys? How do we prevent prompt injection attacks that could manipulate the AI's votes?
+              </ReviewCard>
+            </CardGroup>
+
+            <CardGroup type="challenge" sectionFg={S.tech.fg}>
+              <ReviewCard type="challenge" sectionFg={S.tech.fg}>
+                <strong>AI Proxy Voting:</strong> Allowing members to "let AI make their votes" introduces significant risks. If an AI hallucinates or is manipulated, it could execute disastrous governance decisions. The legal liability of an AI executing a vote on behalf of a human is also untested.
+              </ReviewCard>
+            </CardGroup>
+
+            <CardGroup type="improve" sectionFg={S.tech.fg}>
+              <ReviewCard type="improve" sectionFg={S.tech.fg}>
+                <strong>Account Abstraction (ERC-4337):</strong> Utilize Account Abstraction to provide a seamless Web2-like experience (social logins, gasless transactions) while maintaining Web3 security and self-custody.
+              </ReviewCard>
+              <ReviewCard type="improve" sectionFg={S.tech.fg}>
+                <strong>AI as an Advisor, Not a Voter:</strong> Restrict the AI's role to summarizing proposals, analyzing sentiment, and providing data-driven recommendations, rather than granting it direct voting power or proxy execution rights.
+              </ReviewCard>
+            </CardGroup>
+
+          </ReviewSection>
+        </div>
+
+        <!-- ─── Section 5: Product & UX ──────────────────────────────────── -->
+        <div id="product-ux" data-toc-section>
+          <ReviewSection id="product-ux-inner" number="05" title="Product & User Experience" sectionBg={S.ux.bg} sectionFg={S.ux.fg}>
+
+            <CardGroup type="missing" sectionFg={S.ux.fg}>
+              <ReviewCard type="missing" sectionFg={S.ux.fg}>
+                <strong>The "Cold Start" Problem Strategy:</strong> How does the platform attract the initial critical mass of users required to make the network effect and game theory mechanics function?
+              </ReviewCard>
+              <ReviewCard type="missing" sectionFg={S.ux.fg}>
+                <strong>Reputation System:</strong> A persistent reputation system that tracks a user's history of successful proposals, accurate votes, or reliable fulfillment is missing.
+              </ReviewCard>
+            </CardGroup>
+
+            <CardGroup type="challenge" sectionFg={S.ux.fg}>
+              <ReviewCard type="challenge" sectionFg={S.ux.fg}>
+                <strong>Complexity of the User Journey:</strong> The journey from pitching an idea for $1, to forming a DAO, to hiring local partners, to managing a treasury is incredibly complex. Expecting average users to navigate this without significant friction is unrealistic.
+              </ReviewCard>
+            </CardGroup>
+
+            <CardGroup type="improve" sectionFg={S.ux.fg}>
+              <ReviewCard type="improve" sectionFg={S.ux.fg}>
+                <strong>Gamified Reputation and Tiers:</strong> Implement a non-transferable reputation token (Soulbound Token) that tracks user contributions. Higher reputation could unlock advanced features, lower proposal costs, or increase voting weight.
+              </ReviewCard>
+              <ReviewCard type="improve" sectionFg={S.ux.fg}>
+                <strong>Curated Templates:</strong> Provide pre-vetted, legally compliant templates for common business types (e.g., "Community Garden Template," "Software SaaS Template") that bundle the necessary smart contracts, bylaws, and governance structures to reduce friction.
+              </ReviewCard>
+            </CardGroup>
+
+          </ReviewSection>
+        </div>
+
+        <!-- ─── Conclusion ────────────────────────────────────────────────── -->
+        <section id="conclusion" data-toc-section class="mb-12">
+          <div class="flex items-center gap-3 mb-5">
+            <div class="w-1 h-8 rounded" style="background-color: #C9A84C;"></div>
+            <h2 class="text-2xl font-bold m-0" style="font-family: 'Lora', serif; color: #F5F3EE;">Conclusion</h2>
+            <button
+              class="copy-link-btn ml-auto text-xs px-2 py-1 rounded opacity-40 hover:opacity-80 transition-opacity flex items-center gap-1"
+              style="color: #C9A84C; background-color: rgba(201,168,76,0.08); border: 1px solid rgba(201,168,76,0.2);"
+              data-href="#conclusion"
+              title="Copy link"
+            >
+              <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/></svg>
+              <span class="copy-label">Copy link</span>
+            </button>
+          </div>
+
+          <p class="mb-6 text-base leading-relaxed" style="color: #D1D5DB;">
+            "Ideation to Consensus" is a visionary concept that correctly identifies the friction in transitioning online communities into productive economic entities. To achieve success, the project must pivot from a purely theoretical model to a legally robust, Sybil-resistant, and user-friendly platform. Prioritizing regulatory compliance (especially regarding securities laws), implementing advanced governance mechanisms (like Quadratic Voting), and refining the role of AI will be critical next steps.
+          </p>
+
+          <h3 class="text-base font-semibold mb-3" style="color: #C9A84C; font-family: 'Inter', sans-serif; text-transform: uppercase; letter-spacing: 0.08em;">Prioritized Action Matrix</h3>
+          <ActionMatrix rows={actionRows} />
+        </section>
+
+        <!-- ─── References ────────────────────────────────────────────────── -->
+        <section id="references" data-toc-section class="mb-12">
+          <div class="flex items-center gap-3 mb-5">
+            <div class="w-1 h-8 rounded" style="background-color: #4B5563;"></div>
+            <h2 class="text-xl font-bold m-0" style="font-family: 'Lora', serif; color: #9CA3AF;">References</h2>
+          </div>
+
+          <div class="rounded-lg p-5 text-sm space-y-3" style="background-color: #0A0D1E; border: 1px solid #1F2937;">
+            <div id="ref-1" class="flex gap-3">
+              <span class="font-mono font-bold shrink-0" style="color: #6B7280;">[1]</span>
+              <span style="color: #9CA3AF;">SEC.gov, "Regulation Crowdfunding," <a href="https://www.sec.gov/resources-small-businesses/exempt-offerings/regulation-crowdfunding" target="_blank" rel="noopener noreferrer" style="color: #60A5FA;">https://www.sec.gov/resources-small-businesses/exempt-offerings/regulation-crowdfunding</a></span>
+            </div>
+            <div id="ref-2" class="flex gap-3">
+              <span class="font-mono font-bold shrink-0" style="color: #6B7280;">[2]</span>
+              <span style="color: #9CA3AF;">Neos Legal, "Popular Jurisdictions for DAO Legal Wrappers in 2024," <a href="https://neoslegal.co/popular-jurisdictions-for-dao-legal-wrappers-in-2024/" target="_blank" rel="noopener noreferrer" style="color: #60A5FA;">https://neoslegal.co/popular-jurisdictions-for-dao-legal-wrappers-in-2024/</a></span>
+            </div>
+            <div id="ref-3" class="flex gap-3">
+              <span class="font-mono font-bold shrink-0" style="color: #6B7280;">[3]</span>
+              <span style="color: #9CA3AF;">FinRegRag, "The New DAO Model: Legal Protections for Unincorporated For-Profit DAOs," <a href="https://www.finregrag.com/p/the-new-dao-model-legal-protections" target="_blank" rel="noopener noreferrer" style="color: #60A5FA;">https://www.finregrag.com/p/the-new-dao-model-legal-protections</a></span>
+            </div>
+            <div id="ref-4" class="flex gap-3">
+              <span class="font-mono font-bold shrink-0" style="color: #6B7280;">[4]</span>
+              <span style="color: #9CA3AF;">Imperva, "What is a Sybil Attack," <a href="https://www.imperva.com/learn/application-security/sybil-attack/" target="_blank" rel="noopener noreferrer" style="color: #60A5FA;">https://www.imperva.com/learn/application-security/sybil-attack/</a></span>
+            </div>
+            <div id="ref-5" class="flex gap-3">
+              <span class="font-mono font-bold shrink-0" style="color: #6B7280;">[5]</span>
+              <span style="color: #9CA3AF;">Gitcoin, "Quadratic Voting," <a href="https://gitcoin.co/mechanisms/quadratic-voting" target="_blank" rel="noopener noreferrer" style="color: #60A5FA;">https://gitcoin.co/mechanisms/quadratic-voting</a></span>
+            </div>
+          </div>
+        </section>
+
+        <!-- Back to reviews -->
+        <div class="mt-10 pt-8" style="border-top: 1px solid #1F2937;">
+          <a href="/" class="inline-flex items-center gap-2 text-sm no-underline transition-colors" style="color: #6B7280;" onmouseover="this.style.color='#C9A84C'" onmouseout="this.style.color='#6B7280'">
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 12H5M12 5l-7 7 7 7"/></svg>
+            Back to all reviews
+          </a>
+        </div>
+
+      </article>
+    </div>
+  </div>
+</BaseLayout>
+
+<script>
+  // Copy-link buttons (executive summary + conclusion headers)
+  document.querySelectorAll('.copy-link-btn').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const href = (btn as HTMLElement).dataset.href;
+      const url = window.location.origin + window.location.pathname + href;
+      navigator.clipboard.writeText(url).then(() => {
+        const label = btn.querySelector('.copy-label');
+        if (label) {
+          label.textContent = 'Copied!';
+          setTimeout(() => { label.textContent = 'Copy link'; }, 2000);
+        }
+      });
+    });
+  });
+</script>

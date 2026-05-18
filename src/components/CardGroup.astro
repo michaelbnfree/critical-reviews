@@ -1,0 +1,30 @@
+---
+/**
+ * CardGroup — groups ReviewCards under a subsection heading with glyph legend.
+ * Composable: reusable across all editorial bricks.
+ */
+export interface Props {
+  type: 'missing' | 'challenge' | 'improve';
+  sectionFg: string;
+}
+
+const { type, sectionFg } = Astro.props;
+
+const config = {
+  missing:   { glyph: '○', label: 'What is Missing' },
+  challenge: { glyph: '△', label: 'What Needs to be Challenged' },
+  improve:   { glyph: '◆', label: 'Improvements' },
+};
+
+const c = config[type];
+---
+
+<div class="card-group mb-6">
+  <h3 class="flex items-center gap-2 text-sm font-semibold uppercase tracking-widest mb-3" style={`color: ${sectionFg}; font-family: 'Inter', sans-serif;`}>
+    <span class="font-mono text-base" aria-hidden="true">{c.glyph}</span>
+    {c.label}
+  </h3>
+  <div class="space-y-2">
+    <slot />
+  </div>
+</div>

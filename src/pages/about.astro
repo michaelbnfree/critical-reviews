@@ -1,0 +1,87 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="About Critical Reviews"
+  description="Critical Reviews is a Sebastian Productions brick — rigorous long-form analysis of emerging concepts in crypto, Web3, and decentralized governance."
+>
+  <!-- Hero -->
+  <div class="relative overflow-hidden" style="background-color: #04050C; border-bottom: 1px solid #1F2937;">
+    <div class="absolute inset-0 opacity-5" style="background-image: linear-gradient(rgba(201,168,76,0.4) 1px, transparent 1px), linear-gradient(90deg, rgba(201,168,76,0.4) 1px, transparent 1px); background-size: 60px 60px;"></div>
+    <div class="absolute top-0 left-0 right-0 h-0.5" style="background: linear-gradient(90deg, transparent, #C9A84C 30%, #E8C97A 50%, #C9A84C 70%, transparent);"></div>
+
+    <div class="relative max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <div class="flex items-center gap-2 mb-4">
+        <div class="w-6 h-6 rounded text-xs font-bold flex items-center justify-center" style="background-color: #C9A84C; color: #04050C;">CR</div>
+        <span class="text-xs font-semibold uppercase tracking-widest" style="color: #C9A84C; font-family: 'Inter', sans-serif;">About</span>
+      </div>
+      <h1 class="text-4xl font-bold mb-4" style="font-family: 'Lora', serif; color: #F5F3EE; line-height: 1.2;">About Critical Reviews</h1>
+      <p class="text-lg" style="color: #9CA3AF; line-height: 1.6;">Rigorous analysis of emerging concepts in crypto, governance, and decentralized systems.</p>
+    </div>
+  </div>
+
+  <!-- Content -->
+  <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+    <div class="space-y-10 text-base leading-relaxed" style="color: #D1D5DB;">
+
+      <section>
+        <h2 class="text-xl font-bold mb-4" style="font-family: 'Lora', serif; color: #F5F3EE;">The Mission</h2>
+        <p>
+          Critical Reviews exists to do the analytical work that most crypto commentary skips: systematic, multi-dimensional stress-testing of concepts before they become products, protocols, or policies. The space moves fast, and the cost of unexamined assumptions is high — in capital, in governance failures, and in regulatory exposure.
+        </p>
+        <p class="mt-4">
+          Each review examines a concept across five standard dimensions: <strong style="color: #F5F3EE;">Legal &amp; Regulatory Compliance</strong>, <strong style="color: #F5F3EE;">Governance &amp; Security</strong>, <strong style="color: #F5F3EE;">Economic &amp; Game Theory Mechanics</strong>, <strong style="color: #F5F3EE;">Technical &amp; Operational Feasibility</strong>, and <strong style="color: #F5F3EE;">Product &amp; User Experience</strong>. Within each dimension, findings are classified as gaps (what is missing), challenges (what needs to be questioned), and improvements (concrete recommendations).
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-bold mb-4" style="font-family: 'Lora', serif; color: #F5F3EE;">The Format</h2>
+        <p>
+          Reviews are long-form by design. The goal is not to produce hot takes or Twitter threads — it is to produce reference-quality analysis that a founder, investor, or regulator can use as a working document. Each review includes an executive summary with a risk matrix, section-by-section analysis with sourced claims, and a prioritized action matrix in the conclusion.
+        </p>
+        <p class="mt-4">
+          All factual claims are cited. All recommendations are grounded in existing legal frameworks, technical standards, or documented precedents.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-bold mb-4" style="font-family: 'Lora', serif; color: #F5F3EE;">The Parent</h2>
+        <p>
+          Critical Reviews is a <strong style="color: #F5F3EE;">Sebastian Productions</strong> brick — one of several independent editorial and analytical properties under the Bastomatic holding structure. Each brick is a standalone brand with its own domain, audience, and purpose. They are composable: the same analytical frameworks, component libraries, and infrastructure underpin all of them.
+        </p>
+        <p class="mt-4">
+          This site is produced by the same team behind <a href="https://contrarianalpha.io" style="color: #C9A84C;">Contrarian Alpha</a>, a trading and macro analysis publication. Where Contrarian Alpha focuses on market positioning, Critical Reviews focuses on concept-level due diligence.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-bold mb-4" style="font-family: 'Lora', serif; color: #F5F3EE;">Editorial Principles</h2>
+        <div class="space-y-3">
+          {[
+            ['No sacred cows', 'No concept is exempt from scrutiny because it is popular, well-funded, or associated with respected names.'],
+            ['Sourced claims', 'Every factual assertion links to a primary source. Opinion is clearly labeled as such.'],
+            ['Constructive by default', 'The goal is not to tear down but to identify what would need to be true for a concept to succeed.'],
+            ['Freely accessible', 'All reviews are published openly. No paywall, no email gate, no friction. Analysis should circulate.'],
+          ].map(([title, desc]) => (
+            <div class="flex gap-3 p-4 rounded-lg" style="background-color: #0A0D1E; border: 1px solid #1F2937;">
+              <span class="font-mono text-sm font-bold shrink-0 mt-0.5" style="color: #C9A84C;">◆</span>
+              <div>
+                <strong style="color: #F5F3EE;">{title}:</strong>{' '}
+                <span style="color: #9CA3AF;">{desc}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <div class="pt-6" style="border-top: 1px solid #1F2937;">
+        <a href="/" class="inline-flex items-center gap-2 text-sm no-underline" style="color: #6B7280;" onmouseover="this.style.color='#C9A84C'" onmouseout="this.style.color='#6B7280'">
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 12H5M12 5l-7 7 7 7"/></svg>
+          View all reviews
+        </a>
+      </div>
+
+    </div>
+  </div>
+</BaseLayout>

@@ -1,0 +1,26 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="404 — Page Not Found"
+  description="The page you are looking for does not exist."
+>
+  <div class="min-h-[60vh] flex items-center justify-center px-4">
+    <div class="text-center max-w-md">
+      <div class="text-8xl font-bold mb-4" style="font-family: 'Lora', serif; color: rgba(201,168,76,0.2);">404</div>
+      <h1 class="text-2xl font-bold mb-3" style="font-family: 'Lora', serif; color: #F5F3EE;">Page Not Found</h1>
+      <p class="mb-8" style="color: #9CA3AF;">The review or page you are looking for does not exist, or may have moved.</p>
+      <a
+        href="/"
+        class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-medium no-underline transition-colors"
+        style="background-color: #C9A84C; color: #04050C;"
+        onmouseover="this.style.backgroundColor='#E8C97A'"
+        onmouseout="this.style.backgroundColor='#C9A84C'"
+      >
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 12H5M12 5l-7 7 7 7"/></svg>
+        Back to Reviews
+      </a>
+    </div>
+  </div>
+</BaseLayout>

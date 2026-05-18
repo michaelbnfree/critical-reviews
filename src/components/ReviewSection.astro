@@ -1,0 +1,59 @@
+---
+/**
+ * ReviewSection — color-coded section wrapper with anchor header and copy-link button.
+ * 
+ * Composable: extract this + ReviewCard into a shared component library for other bricks.
+ */
+export interface Props {
+  id: string;
+  number: string;
+  title: string;
+  sectionBg: string;
+  sectionFg: string;
+}
+
+const { id, number, title, sectionBg, sectionFg } = Astro.props;
+---
+
+<section {id} class="review-section mb-12 rounded-xl overflow-hidden" style={`border: 1px solid ${sectionBg}; box-shadow: 0 0 0 1px rgba(255,255,255,0.04);`}>
+  <!-- Section header -->
+  <div class="px-6 py-4 flex items-center justify-between" style={`background-color: ${sectionBg};`}>
+    <div class="flex items-center gap-3">
+      <span class="text-xs font-bold px-2 py-0.5 rounded font-mono" style={`background-color: rgba(0,0,0,0.3); color: ${sectionFg};`}>{number}</span>
+      <h2 class="text-lg font-bold m-0" style={`font-family: 'Lora', serif; color: ${sectionFg};`}>{title}</h2>
+    </div>
+    <button
+      class="copy-link-btn text-xs px-2 py-1 rounded opacity-60 hover:opacity-100 transition-opacity flex items-center gap-1"
+      style={`color: ${sectionFg}; background-color: rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.1);`}
+      data-href={`#${id}`}
+      title="Copy link to this section"
+      aria-label="Copy link to this section"
+    >
+      <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/>
+      </svg>
+      <span class="copy-label">Copy link</span>
+    </button>
+  </div>
+
+  <!-- Section body -->
+  <div class="px-6 py-6" style="background-color: rgba(255,255,255,0.02);">
+    <slot />
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll('.copy-link-btn').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const href = (btn as HTMLElement).dataset.href;
+      const url = window.location.origin + window.location.pathname + href;
+      navigator.clipboard.writeText(url).then(() => {
+        const label = btn.querySelector('.copy-label');
+        if (label) {
+          label.textContent = 'Copied!';
+          setTimeout(() => { label.textContent = 'Copy link'; }, 2000);
+        }
+      });
+    });
+  });
+</script>
